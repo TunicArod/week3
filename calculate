@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h2 {
+            text-align: center;
+        }
+        label {
+            font-size: 16px;
+            margin-top: 10px;
+            display: block;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .total-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .total-container p {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Contact Form</h2>
+        <form id="contactForm" action="#" method="post">
+            <!-- Name Field -->
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <!-- Phone Number Field -->
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+            </div>
+
+            <!-- Gender Field (Radio Buttons) -->
+            <div class="form-group">
+                <label>Gender:</label>
+                <input type="radio" id="male" name="gender" value="male">
+                <label for="male">Male</label>
+                <input type="radio" id="female" name="gender" value="female">
+                <label for="female">Female</label>
+            </div>
+
+            <!-- Date of Project -->
+            <div class="form-group">
+                <label for="dop">Date Needing Project:</label>
+                <input type="date" id="dop" name="dop" required>
+            </div>
+
+            <!-- Favorite Wood Field (Dropdown) -->
+            <div class="form-group">
+                <label for="Wood">Type of Wood for Project:</label>
+                <select id="Wood" name="Wood" required>
+                    <option value="Oak">Oak</option>
+                    <option value="Pine">Pine</option>
+                    <option value="Walnut">Walnut</option>
+                    <option value="Maple">Maple</option>
+                    <option value="Plywood">Plywood</option>
+                </select>
+            </div>
+
+            <!-- Type of Project Field (Checkboxes) -->
+            <div class="form-group">
+                <label>Project Type:</label>
+                <input type="checkbox" id="Project1" name="Project Type" value="Book Case">
+                <label for="Project1">Book Case</label>
+                <input type="number" id="quantity1" name="quantity1" value="1" min="1" style="width: 60px;" required><br>
+
+                <input type="checkbox" id="Project2" name="Project Type" value="Cabinets">
+                <label for="Project2">Cabinets</label>
+                <input type="number" id="quantity2" name="quantity2" value="1" min="1" style="width: 60px;" required><br>
+
+                <input type="checkbox" id="Project3" name="Project Type" value="Custom">
+                <label for="Project3">Custom</label>
+                <input type="number" id="quantity3" name="quantity3" value="1" min="1" style="width: 60px;" required><br>
+            </div>
+
+            <!-- Message Field -->
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" placeholder="Enter your message" required></textarea>
+            </div>
+
+            <!-- Calculate Total Button -->
+            <button type="button" onclick="calculateTotal()">Calculate Total</button>
+
+            <!-- Submit Button -->
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- Total Display -->
+        <div class="total-container" id="totalContainer" style="display: none;">
+            <p>Total Price: $<span id="totalPrice"></span></p>
+        </div>
+    </div>
+
+    <script>
+        // Function to calculate total based on wood type, project type, and quantity
+        function calculateTotal() {
+            var woodPrices = {
+                "Oak": 100,
+                "Pine": 50,
+                "Walnut": 200,
+                "Maple": 150,
+                "Plywood": 80
+            };
+
+            var projectPrices = {
+                "Book Case": 250,
+                "Cabinets": 500,
+                "Custom": 350
+            };
+
+            var selectedWood = document.getElementById("Wood").value;
+            var total = woodPrices[selectedWood];
+
+            // Add project type prices with quantities
+            var totalItems = 0;
+            if (document.getElementById("Project1").checked) {
+                var quantity1 = parseInt(document.getElementById("quantity1").value);
+                total += projectPrices["Book Case"] * quantity1;
+                totalItems += quantity1;
+            }
+
+            if (document.getElementById("Project2").checked) {
+                var quantity2 = parseInt(document.getElementById("quantity2").value);
+                total += projectPrices["Cabinets"] * quantity2;
+                totalItems += quantity2;
+            }
+
+            if (document.getElementById("Project3").checked) {
+                var quantity3 = parseInt(document.getElementById("quantity3").value);
+                total += projectPrices["Custom"] * quantity3;
+                totalItems += quantity3;
+            }
+
+            // Display total price
+            document.getElementById("totalPrice").textContent = total;
+            document.getElementById("totalContainer").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
+
